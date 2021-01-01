@@ -1,3 +1,7 @@
+import imageBackground from './images/background.jpg'
+import imageBacteriaGreen from './images/bacter1.jpg'
+import imageBacteriaRed from './images/bacter1.jpg'
+import imageFood from './images/food.jpg'
 
 let count = 0
 
@@ -23,8 +27,8 @@ const onImagesLoad = () => {
 }
 
 export const image = {
-    background : downloadImage('./images/background.jpg'),
-    bacteriaGreen : downloadImage('./images/bacter1.jpg'),
-    bacteriaRed : downloadImage('./images/bacter1.jpg'),
-    food : downloadImage('./images/food.jpg'),
+    background : downloadImage(imageBackground),
+    bacteriaGreen : downloadImage(imageBacteriaGreen),
+    bacteriaRed : downloadImage(imageBacteriaRed),
+    food : downloadImage(imageFood),
 }

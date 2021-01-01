@@ -11,7 +11,6 @@ export class Canvas {
     }
 
     paint() {
-        console.log(this.backgroundTexture);
         this.context.drawImage(
             this.backgroundTexture,
             0, 0,
