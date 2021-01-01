@@ -9,11 +9,22 @@ let count = 0
 const downloadImage = (path) => {
     const img = new Image()
     img.src = path
+    img.onload = function () {
+        count++;
+        if (count === Object.keys(image).length) {
+            onImagesLoad()
+        }
+    }
     return img
 }
 
-const image = {
+const onImagesLoad = () => {
+
+}
+
+export const image = {
     background : downloadImage('./images/background.jpg'),
-    bacteroid1 : downloadImage('./images/bacter1.jpg'),
+    bacteriaGreen : downloadImage('./images/bacter1.jpg'),
+    bacteriaRed : downloadImage('./images/bacter1.jpg'),
     food : downloadImage('./images/food.jpg'),
 }

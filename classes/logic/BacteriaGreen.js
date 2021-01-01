@@ -1,9 +1,10 @@
-class Bacteria {
+import {Bacteria} from "./Bacteria";
+
+export class BacteriaGreen extends Bacteria {
 
     constructor() {
-        this.width = 12
-        this.height = 12
-        this.angle = 0 // 0 - 359
+        super()
+
         this.target = null
         this.foodForSeed = 3
         this.speed = 1
