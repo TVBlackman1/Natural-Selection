@@ -10,6 +10,16 @@ export class Food extends RealObject {
 
     }
 
+    onDelete() {
+        super.onDelete();
+        const objects = getLogicalNamespace().objectLists.FoodList.objects
+
+        const index = objects.indexOf(this);
+        if (index > -1) {
+            objects.splice(index, 1);
+        }
+    }
+
     static createNewFood() {
         function getRandomInt(min, max) {
             min = Math.ceil(min);
@@ -20,7 +30,6 @@ export class Food extends RealObject {
         let food = new Food()
         food.x = getRandomInt(0, 1200 - food.width)
         food.y = getRandomInt(0, 800 - food.height)
-        console.log(food.x, food.y)
         return food
     }
 }

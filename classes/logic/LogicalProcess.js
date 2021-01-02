@@ -1,5 +1,6 @@
 import {getLogicalNamespace} from "./LogicalNamespace";
 import {Food} from "./Food";
+import {BacteriaGreen} from "./BacteriaGreen";
 
 export class LogicalProcess {
 
@@ -30,20 +31,27 @@ export class LogicalProcess {
             let countObjects = list.length
             for (let j = 0; j < countObjects; j++) {
                 let object = list[j]
-                console.log(object.constructor.name);
+                // console.log(object.constructor.name);
             }
         }
     }
 
     start() {
+        for(let i = 0; i < 13; i++) {
+            Food.createNewFood()
+        }
+
         setInterval(() => {
             Food.createNewFood()
-            console.log("created new food")
-        }, 1500)
+        }, 300)
+
+        for(let i = 0; i < 3; i++) {
+            BacteriaGreen.createNewBacteria()
+        }
 
         setInterval(() => {
             this.executeLogicalIteration()
 
-        }, 100)
+        }, 30)
     }
 }
