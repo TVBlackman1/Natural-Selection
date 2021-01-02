@@ -43,7 +43,7 @@ export class LogicalProcess {
 
         setInterval(() => {
             Food.createNewFood()
-        }, 300)
+        }, 500)
 
         for(let i = 0; i < 7; i++) {
             BacteriaGreen.createNewBacteria()

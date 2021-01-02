@@ -16,7 +16,7 @@ export class BacteriaGreen extends Bacteria {
         this.livingTime = this.maxLivingTime
         this.timeWithoutFood = this.maxTimeWithoutFood
 
-        console.log(this.x, this.y, this.width, this.height)
+        // console.log(this.x, this.y, this.width, this.height)
         getLogicalNamespace().objectLists.BacteriaGreenList.push(this)
 
     }

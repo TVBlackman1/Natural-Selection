@@ -1,7 +1,7 @@
 import imageBackground from './images/background.jpg'
-import imageBacteriaGreen from './images/bacter1.jpg'
-import imageBacteriaRed from './images/bacter1.jpg'
-import imageFood from './images/food.jpg'
+import imageBacteriaGreen from './images/bacter1.png'
+import imageBacteriaRed from './images/bacter1.png'
+import imageFood from './images/food.png'
 
 let count = 0
 

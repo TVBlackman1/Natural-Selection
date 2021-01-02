@@ -6,6 +6,9 @@ export class Bacteria extends RealObject {
     constructor() {
         super()
 
+        this.width = 52
+        this.height = 52
+
         this.target = null // RealObject object
         this.foodForSeed = 0
         this.currentFoodForSeed = 0
@@ -64,7 +67,7 @@ export class Bacteria extends RealObject {
         const range = (x1, y1, x2, y2) => ( (x1-x2)**2 + (y1-y2)**2 ) // without sqrt, dont matter
         if (range(this.x, this.y, this.target.x, this.target.y) < this.width * this.width) {
             this.target.onDelete()
-            console.log("eat")
+            // console.log("eat")
             this.timeWithoutFood = this.maxTimeWithoutFood
             this.currentFoodForSeed++
             if(this.currentFoodForSeed === this.foodForSeed) {
@@ -116,8 +119,8 @@ export class Bacteria extends RealObject {
             return (Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
         }
 
-        this.speed *= getRandom(0.8, 1.2)
-        this.maxLivingTime *= getRandom(0.9, 1.3)
-        this.maxTimeWithoutFood *= getRandom(0.9, 1.3)
+        this.speed *= getRandom(0.8, 1.1)
+        this.maxLivingTime *= getRandom(0.99, 1.01)
+        this.maxTimeWithoutFood *= getRandom(0.99, 1.01)
     }
 }
