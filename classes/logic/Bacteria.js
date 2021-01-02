@@ -81,13 +81,13 @@ export class Bacteria extends RealObject {
 
     update() {
         super.update()
-        if(!this.target) {
+        // if(!this.target) {
             this.setNearestTarget()
-        }
+        // }
         this.goToTarget()
         this.livingTime--;
         this.timeWithoutFood--;
-        if(this.livingTime === 0 || this.timeWithoutFood === 0) {
+        if(this.livingTime <= 0 || this.timeWithoutFood <= 0) {
             this.onDelete()
         }
     }
@@ -103,17 +103,21 @@ export class Bacteria extends RealObject {
         child.x = this.x + getRandomInt(-this.width, this.width)
         child.y = this.y + getRandomInt(-this.height, this.height)
         child.speed = this.speed
+        child.maxLivingTime = this.maxLivingTime
+        child.maxTimeWithoutFood = this.maxTimeWithoutFood
         child.mutate()
         return child
     }
 
     mutate() {
-        function getRandomInt(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+        function getRandom(min, max) {
+            // min = Math.ceil(min);
+            // max = Math.floor(max);
+            return (Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
         }
 
-        this.speed += getRandomInt(-1, 1)
+        this.speed *= getRandom(0.8, 1.2)
+        this.maxLivingTime *= getRandom(0.9, 1.3)
+        this.maxTimeWithoutFood *= getRandom(0.9, 1.3)
     }
 }

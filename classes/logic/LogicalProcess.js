@@ -37,7 +37,7 @@ export class LogicalProcess {
     }
 
     start() {
-        for(let i = 0; i < 13; i++) {
+        for(let i = 0; i < 18; i++) {
             Food.createNewFood()
         }
 
@@ -45,7 +45,7 @@ export class LogicalProcess {
             Food.createNewFood()
         }, 300)
 
-        for(let i = 0; i < 3; i++) {
+        for(let i = 0; i < 7; i++) {
             BacteriaGreen.createNewBacteria()
         }
 

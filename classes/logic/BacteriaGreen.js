@@ -8,10 +8,10 @@ export class BacteriaGreen extends Bacteria {
         super()
 
         this.foodForSeed = 3
-        this.speed = 2
+        this.speed = 0.9
 
-        this.maxLivingTime = 7000
-        this.maxTimeWithoutFood = 120
+        this.maxLivingTime = 10000
+        this.maxTimeWithoutFood = 240
 
         this.livingTime = this.maxLivingTime
         this.timeWithoutFood = this.maxTimeWithoutFood

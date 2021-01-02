@@ -41,7 +41,6 @@ export class Canvas {
                 ObjectPainter.paint(object)
             }
         }
-
     }
 
     start() {
