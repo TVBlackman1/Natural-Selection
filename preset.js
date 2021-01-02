@@ -28,7 +28,7 @@ const onImagesLoad = () => {
 
 export const image = {
     background : downloadImage(imageBackground),
-    bacteriaGreen : downloadImage(imageBacteriaGreen),
-    bacteriaRed : downloadImage(imageBacteriaRed),
-    food : downloadImage(imageFood),
+    BacteriaGreen : downloadImage(imageBacteriaGreen),
+    BacteriaRed : downloadImage(imageBacteriaRed),
+    Food : downloadImage(imageFood),
 }

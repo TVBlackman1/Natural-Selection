@@ -11,4 +11,12 @@ export class ObjectList {
          */
         this.objects = []
     }
+
+    /**
+     *
+     * @param {RealObject} realObject
+     */
+    push(realObject) {
+        this.objects.push(realObject)
+    }
 }

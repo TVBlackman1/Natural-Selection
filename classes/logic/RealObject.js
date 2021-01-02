@@ -6,4 +6,8 @@ export class RealObject {
         this.height = 12
         this.angle = 0 // 0 - 359
     }
+
+    update() {
+
+    }
 }
