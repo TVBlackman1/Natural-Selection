@@ -1,6 +1,7 @@
 import {getLogicalNamespace} from "./LogicalNamespace";
 import {Food} from "./Food";
 import {BacteriaGreen} from "./BacteriaGreen";
+import {BacteriaRed} from "./BacteriaRed";
 
 export class LogicalProcess {
 
@@ -21,8 +22,8 @@ export class LogicalProcess {
         this.objectLists.BacteriaGreenList.objects.forEach((bacteriaGreen) => {
             bacteriaGreen.update()
         })
-        this.objectLists.BacteriaGreenList.objects.forEach((bacteriaGreen) => {
-            bacteriaGreen.update()
+        this.objectLists.BacteriaRedList.objects.forEach((bacteriaRed) => {
+            bacteriaRed.update()
         })
 
         const countLogicalLists = Object.keys(this.logicalNamespace.objectLists).length
@@ -47,6 +48,10 @@ export class LogicalProcess {
 
         for(let i = 0; i < 7; i++) {
             BacteriaGreen.createNewBacteria()
+        }
+
+        for(let i = 0; i < 1; i++) {
+            BacteriaRed.createNewBacteria()
         }
 
         setInterval(() => {

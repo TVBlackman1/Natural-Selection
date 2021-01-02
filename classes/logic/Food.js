@@ -6,6 +6,9 @@ export class Food extends RealObject {
     constructor() {
         super()
 
+        this.width = 42
+        this.height = 42
+
         getLogicalNamespace().objectLists.FoodList.push(this)
 
     }

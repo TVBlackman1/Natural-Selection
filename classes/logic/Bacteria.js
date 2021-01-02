@@ -10,6 +10,7 @@ export class Bacteria extends RealObject {
         this.height = 52
 
         this.target = null // RealObject object
+        this.targetList = null
         this.foodForSeed = 0
         this.currentFoodForSeed = 0
         this.speed = 0
@@ -21,7 +22,8 @@ export class Bacteria extends RealObject {
     }
 
     setNearestTarget() {
-        const targetList = getLogicalNamespace().objectLists.FoodList.objects
+        // const targetList = getLogicalNamespace().objectLists.FoodList.objects
+        const targetList =  this.targetList
 
         const range = (x1, y1, x2, y2) => ( (x1-x2)**2 + (y1-y2)**2 ) // without sqrt, dont matter
 
@@ -119,8 +121,11 @@ export class Bacteria extends RealObject {
             return (Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
         }
 
-        this.speed *= getRandom(0.8, 1.1)
-        this.maxLivingTime *= getRandom(0.99, 1.01)
-        this.maxTimeWithoutFood *= getRandom(0.99, 1.01)
+        const coef = getRandom(0.8, 1.2)
+        this.speed *= coef
+        this.maxTimeWithoutFood /= (coef * 0.98)
+        this.timeWithoutFood = this.maxTimeWithoutFood
+        // this.maxLivingTime *= getRandom(0.99, 1.01)
+        // this.maxTimeWithoutFood *= getRandom(0.99, 1.01)
     }
 }

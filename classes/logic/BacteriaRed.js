@@ -8,9 +8,16 @@ export class BacteriaRed extends Bacteria {
         super()
 
         this.foodForSeed = 3
-        this.speed = 1
-        this.livingTime = 70
-        this.timeWithoutFood = 12
+        this.speed = 2.12
+
+        this.maxLivingTime = 10000
+        this.maxTimeWithoutFood = 310
+
+        this.livingTime = this.maxLivingTime
+        this.timeWithoutFood = this.maxTimeWithoutFood
+
+        this.targetList = getLogicalNamespace().objectLists.BacteriaGreenList.objects
+
 
         getLogicalNamespace().objectLists.BacteriaRedList.push(this)
 
@@ -34,7 +41,7 @@ export class BacteriaRed extends Bacteria {
             return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
         }
 
-        let bacteria = new BacteriaGreen()
+        let bacteria = new BacteriaRed()
         bacteria.x = getRandomInt(0, 1200 - bacteria.width)
         bacteria.y = getRandomInt(0, 800 - bacteria.height)
         return bacteria
