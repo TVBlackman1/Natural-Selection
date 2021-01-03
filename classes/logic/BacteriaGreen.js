@@ -32,17 +32,4 @@ export class BacteriaGreen extends Bacteria {
             objects.splice(index, 1);
         }
     }
-
-    static createNewBacteria() {
-        function getRandomInt(min, max) {
-            min = Math.ceil(min);
-            max = Math.floor(max);
-            return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
-        }
-
-        let bacteria = new BacteriaGreen()
-        bacteria.x = getRandomInt(0, 1200 - bacteria.width)
-        bacteria.y = getRandomInt(0, 800 - bacteria.height)
-        return bacteria
-    }
 }

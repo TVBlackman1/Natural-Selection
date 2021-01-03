@@ -9,7 +9,7 @@ export class Bacteria extends RealObject {
         this.width = 52
         this.height = 52
 
-        this.target = null // RealObject object
+        this.currentTarget = null // RealObject class
         this.targetList = null
         this.foodForSeed = 0
         this.currentFoodForSeed = 0
@@ -38,23 +38,22 @@ export class Bacteria extends RealObject {
                 return current
             } else return nearest
         }
-        this.target = targetList.reduce(reducerNearTarget, targetList[0])
-        if (this.target)
-            this.target.addObserver(this)
+        this.currentTarget = targetList.reduce(reducerNearTarget, targetList[0])
+        if (this.currentTarget)
+            this.currentTarget.addObserver(this)
     }
 
     goToTarget() {
-        if(!this.target) return
+        if(!this.currentTarget) return
 
-        const angle =  Math.atan((this.target.y - this.y) / (this.target.x - this.x) ) * Math.sign(this.target.x - this.x) * Math.sign(this.target.y - this.y)
-        // const dx = Math.cos(angle) * this.speed
-        // const dy = Math.sin(angle) * this.speed
+        const angle =  Math.atan((this.currentTarget.y - this.y) / (this.currentTarget.x - this.x) )
+            * Math.sign(this.currentTarget.x - this.x)
+            * Math.sign(this.currentTarget.y - this.y)
 
-        const dx = Math.cos(angle) * this.speed * Math.sign(this.target.x - this.x)
-        const dy = Math.sin(angle) * this.speed * Math.sign(this.target.y - this.y)
+        const dx = Math.cos(angle) * this.speed * Math.sign(this.currentTarget.x - this.x)
+        const dy = Math.sin(angle) * this.speed * Math.sign(this.currentTarget.y - this.y)
 
-        // console.log(angle, dx, dy)
-        //
+
         this.shift(dx, dy)
         this.eat()
     }
@@ -62,13 +61,13 @@ export class Bacteria extends RealObject {
     changeTarget() {
         super.changeTarget();
         // this.setNearestTarget()
-        this.target = null
+        this.currentTarget = null
     }
 
     eat() {
         const range = (x1, y1, x2, y2) => ( (x1-x2)**2 + (y1-y2)**2 ) // without sqrt, dont matter
-        if (range(this.x, this.y, this.target.x, this.target.y) < this.width * this.width) {
-            this.target.onDelete()
+        if (range(this.x, this.y, this.currentTarget.x, this.currentTarget.y) < this.width * this.width) {
+            this.currentTarget.onDelete()
             // console.log("eat")
             this.timeWithoutFood = this.maxTimeWithoutFood
             this.currentFoodForSeed++
@@ -116,8 +115,6 @@ export class Bacteria extends RealObject {
 
     mutate() {
         function getRandom(min, max) {
-            // min = Math.ceil(min);
-            // max = Math.floor(max);
             return (Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
         }
 

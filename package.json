@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "sass": "^1.32.0"
+  },
+  "dependencies": {
+    "conva": "0.0.0"
   }
 }
