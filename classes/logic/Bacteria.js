@@ -9,6 +9,9 @@ export class Bacteria extends RealObject {
         this.width = 52
         this.height = 52
 
+        this.currentSpeedX = 0
+        this.currentSpeedY = 0
+
         this.currentTarget = null // RealObject class
         this.targetList = null
         this.foodForSeed = 0
@@ -34,7 +37,7 @@ export class Bacteria extends RealObject {
          * @param {RealObject} current
          */
         const reducerNearTarget = (nearest, current) => {
-            if(range(nearest.x, nearest.y, this_in.x, this_in.y) > range(current.x, current.y, this_in.x, this_in.y)) {
+            if(range(current.x, current.y, this_in.x, this_in.y) < range(nearest.x, nearest.y, this_in.x, this_in.y)) {
                 return current
             } else return nearest
         }
@@ -51,10 +54,18 @@ export class Bacteria extends RealObject {
             * Math.sign(this.currentTarget.y - this.y)
 
         const dx = Math.cos(angle) * this.speed * Math.sign(this.currentTarget.x - this.x)
-        const dy = Math.sin(angle) * this.speed * Math.sign(this.currentTarget.y - this.y)
+        const dy = Math.sin(angle) * this.speed * Math.sign(this.currentTarget.y - this.y) // speed should be
+
+        this.currentSpeedX += 0.03 * Math.sign(dx)
+        if(Math.abs(this.currentSpeedX) > Math.abs(dx) && Math.sign(this.currentSpeedX) === Math.sign(dx))
+            this.currentSpeedX = dx
+
+        this.currentSpeedY += 0.03 * Math.sign(dy)
+        if(Math.abs(this.currentSpeedY) > Math.abs(dy) && Math.sign(this.currentSpeedY) === Math.sign(dy))
+            this.currentSpeedY = dy
 
 
-        this.shift(dx, dy)
+        this.shift(this.currentSpeedX, this.currentSpeedY)
         this.eat()
     }
 
@@ -85,10 +96,9 @@ export class Bacteria extends RealObject {
 
     update() {
         super.update()
-        // if(!this.target) {
-            this.setNearestTarget()
-        // }
+        this.setNearestTarget()
         this.goToTarget()
+
         this.livingTime--;
         this.timeWithoutFood--;
         if(this.livingTime <= 0 || this.timeWithoutFood <= 0) {
