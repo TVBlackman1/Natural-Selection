@@ -23,6 +23,7 @@ export class Bacteria extends RealObject {
         this.timeWithoutFood = 0
         this.maxLivingTime = 0
         this.maxTimeWithoutFood = 0
+        this.exploringTerrain = {}
 
     }
 
@@ -59,15 +60,46 @@ export class Bacteria extends RealObject {
             this.currentTarget.addObserver(this)
     }
 
-    goToTarget() {
-        if(!this.currentTarget) return
+    exploreTerrain() {
+        const range = (x1, y1, x2, y2) => ( (x1-x2)**2 + (y1-y2)**2 ) // without sqrt, dont matter
 
-        const angle =  Math.atan((this.currentTarget.y - this.y) / (this.currentTarget.x - this.x) )
-            * Math.sign(this.currentTarget.x - this.x)
-            * Math.sign(this.currentTarget.y - this.y)
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+        }
 
-        const dx = Math.cos(angle) * this.speed * Math.sign(this.currentTarget.x - this.x)
-        const dy = Math.sin(angle) * this.speed * Math.sign(this.currentTarget.y - this.y) // speed should be
+        // this.goTo(1280 / 2, 720 / 2)
+        // if (range(1280 / 2, 720 / 2, this.x, this.y) < (this.senseRange ** 2) / 2) {
+            // this.goTo(getRandomInt(0, 1200 - this.width), getRandomInt(0, 800 - this.height))
+        // }]
+        function onExploringEnd() {
+            this.exploringTerrain.ok = false
+        }
+
+        if(!this.exploringTerrain.ok) {
+            this.exploringTerrain.ok = true
+            this.exploringTerrain.targetX = getRandomInt(0, 1200 - this.width)
+            this.exploringTerrain.targetY = getRandomInt(0, 800 - this.height)
+
+            this.exploringTerrain.timeoutFunc = setTimeout(onExploringEnd.bind(this), 3000)
+        }
+
+        this.goTo(this.exploringTerrain.targetX, this.exploringTerrain.targetY)
+    }
+
+    breakExploreTerrain() {
+        this.exploringTerrain.ok = false
+        clearTimeout(this.exploringTerrain.timeoutFunc)
+    }
+
+    goTo(x, y) {
+        const angle =  Math.atan((y - this.y) / (x - this.x) )
+            * Math.sign(x - this.x)
+            * Math.sign(y - this.y)
+
+        const dx = Math.cos(angle) * this.speed * Math.sign(x - this.x)
+        const dy = Math.sin(angle) * this.speed * Math.sign(y - this.y) // speed should be
 
         this.currentSpeedX += 0.03 * Math.sign(dx)
         if(Math.abs(this.currentSpeedX) > Math.abs(dx) && Math.sign(this.currentSpeedX) === Math.sign(dx))
@@ -77,9 +109,7 @@ export class Bacteria extends RealObject {
         if(Math.abs(this.currentSpeedY) > Math.abs(dy) && Math.sign(this.currentSpeedY) === Math.sign(dy))
             this.currentSpeedY = dy
 
-
         this.shift(this.currentSpeedX, this.currentSpeedY)
-        this.eat()
     }
 
     changeTarget() {
@@ -88,11 +118,11 @@ export class Bacteria extends RealObject {
         this.currentTarget = null
     }
 
-    eat() {
+    tryEat() {
         const range = (x1, y1, x2, y2) => ( (x1-x2)**2 + (y1-y2)**2 ) // without sqrt, dont matter
         if (range(this.x, this.y, this.currentTarget.x, this.currentTarget.y) < this.width * this.width) {
             this.currentTarget.onDelete()
-            // console.log("eat")
+
             this.timeWithoutFood = this.maxTimeWithoutFood
             this.currentFoodForSeed++
             if(this.currentFoodForSeed === this.foodForSeed) {
@@ -110,7 +140,15 @@ export class Bacteria extends RealObject {
     update() {
         super.update()
         this.setNearestTarget()
-        this.goToTarget()
+
+        if(this.currentTarget) {
+            this.breakExploreTerrain()
+            this.goTo(this.currentTarget.x, this.currentTarget.y)
+            this.tryEat()
+        }
+        else {
+            this.exploreTerrain()
+        }
 
         this.livingTime--;
         this.timeWithoutFood--;
