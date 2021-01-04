@@ -23,13 +23,22 @@ export class Bacteria extends RealObject {
         this.timeWithoutFood = 0
         this.maxLivingTime = 0
         this.maxTimeWithoutFood = 0
-        this.exploringTerrain = {}
+
+        // if bacteria cant see food, it will explore terrain
+        this.exploringTerrain = {
+            ok: false,
+            targetX: 0,
+            targetY: 0,
+            timeoutFunc: () => {}
+        }
 
     }
 
     setNearestTarget() {
-        // const targetList = getLogicalNamespace().objectLists.FoodList.objects
         const targetList =  this.targetList
+
+        if(targetList.length === 0)
+            return
 
         const range = (x1, y1, x2, y2) => ( (x1-x2)**2 + (y1-y2)**2 ) // without sqrt, dont matter
 
@@ -61,36 +70,36 @@ export class Bacteria extends RealObject {
     }
 
     exploreTerrain() {
-        const range = (x1, y1, x2, y2) => ( (x1-x2)**2 + (y1-y2)**2 ) // without sqrt, dont matter
+        if(!this.exploringTerrain.ok) {
+            this.startExploreTerrain()
+            console.log("change turn")
+        }
 
+        this.goTo(this.exploringTerrain.targetX, this.exploringTerrain.targetY)
+    }
+
+    /**
+     * Break explore terrain if food was found or other logical cases
+     */
+    breakExploreTerrain() {
+        this.exploringTerrain.ok = false
+        clearTimeout(this.exploringTerrain.timeoutFunc)
+    }
+
+    startExploreTerrain() {
         function getRandomInt(min, max) {
             min = Math.ceil(min);
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
         }
 
-        // this.goTo(1280 / 2, 720 / 2)
-        // if (range(1280 / 2, 720 / 2, this.x, this.y) < (this.senseRange ** 2) / 2) {
-            // this.goTo(getRandomInt(0, 1200 - this.width), getRandomInt(0, 800 - this.height))
-        // }]
-        function onExploringEnd() {
-            this.exploringTerrain.ok = false
+        this.exploringTerrain = {
+            ok: true,
+            targetX: getRandomInt(0, 1200 - this.width),
+            targetY: getRandomInt(0, 800 - this.height),
+            timeoutFunc: setTimeout(this.breakExploreTerrain.bind(this), 7000)
         }
-
-        if(!this.exploringTerrain.ok) {
-            this.exploringTerrain.ok = true
-            this.exploringTerrain.targetX = getRandomInt(0, 1200 - this.width)
-            this.exploringTerrain.targetY = getRandomInt(0, 800 - this.height)
-
-            this.exploringTerrain.timeoutFunc = setTimeout(onExploringEnd.bind(this), 3000)
-        }
-
-        this.goTo(this.exploringTerrain.targetX, this.exploringTerrain.targetY)
-    }
-
-    breakExploreTerrain() {
-        this.exploringTerrain.ok = false
-        clearTimeout(this.exploringTerrain.timeoutFunc)
+        console.log(this.exploringTerrain.targetX, this.exploringTerrain.targetY)
     }
 
     goTo(x, y) {
@@ -112,8 +121,8 @@ export class Bacteria extends RealObject {
         this.shift(this.currentSpeedX, this.currentSpeedY)
     }
 
-    changeTarget() {
-        super.changeTarget();
+    onTargetDeath() {
+        super.onTargetDeath();
         // this.setNearestTarget()
         this.currentTarget = null
     }

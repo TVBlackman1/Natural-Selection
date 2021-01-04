@@ -19,11 +19,11 @@ export class RealObject {
 
     onDelete() {
         this.observers.forEach((realObject) => {
-            realObject.changeTarget()
+            realObject.onTargetDeath()
         })
     }
 
-    changeTarget() {}
+    onTargetDeath() {}
 
     /**
      *
