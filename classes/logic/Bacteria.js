@@ -14,6 +14,8 @@ export class Bacteria extends RealObject {
 
         this.currentTarget = null // RealObject class
         this.targetList = null
+        this.senseRange = 200
+
         this.foodForSeed = 0
         this.currentFoodForSeed = 0
         this.speed = 0
@@ -37,11 +39,22 @@ export class Bacteria extends RealObject {
          * @param {RealObject} current
          */
         const reducerNearTarget = (nearest, current) => {
-            if(range(current.x, current.y, this_in.x, this_in.y) < range(nearest.x, nearest.y, this_in.x, this_in.y)) {
+            let rangeToCurrent = range(current.x, current.y, this_in.x, this_in.y)
+            let rangeToNearest = range(nearest.x, nearest.y, this_in.x, this_in.y)
+            if (rangeToCurrent < rangeToNearest && rangeToCurrent <= this.senseRange ** 2
+            ) {
                 return current
             } else return nearest
         }
         this.currentTarget = targetList.reduce(reducerNearTarget, targetList[0])
+
+        // targetList[0] - nearest by default. If no one closer, we should to check is targetList[0] in sense range
+        if (this.currentTarget === targetList[0] &&
+            range(this.currentTarget.x, this.currentTarget.y, this_in.x, this_in.y) > this.senseRange ** 2
+        ) {
+            this.currentTarget = null
+        }
+
         if (this.currentTarget)
             this.currentTarget.addObserver(this)
     }
@@ -116,6 +129,7 @@ export class Bacteria extends RealObject {
         let child = new this.constructor()
         child.x = this.x + getRandomInt(-this.width, this.width)
         child.y = this.y + getRandomInt(-this.height, this.height)
+        child.senseRange = this.senseRange
         child.speed = this.speed
         child.maxLivingTime = this.maxLivingTime
         child.maxTimeWithoutFood = this.maxTimeWithoutFood
