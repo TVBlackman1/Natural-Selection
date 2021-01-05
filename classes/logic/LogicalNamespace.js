@@ -2,10 +2,11 @@ import {ObjectList} from "./ObjectList";
 
 class LogicalNamespace {
     constructor() {
-        this.objectLists = {}
-        this.objectLists.BacteriaGreenList = new ObjectList()
-        this.objectLists.BacteriaRedList = new ObjectList()
-        this.objectLists.FoodList = new ObjectList()
+        this.objectLists = {
+            BacteriaGreenList: new ObjectList(),
+            BacteriaRedList: new ObjectList(),
+            FoodList: new ObjectList()
+        }
 
         this.field = {
             width: 4800,
