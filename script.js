@@ -5,6 +5,7 @@ import {BacteriaGreen} from "./classes/logic/BacteriaGreen";
 import {Bacteria} from "./classes/logic/Bacteria";
 
 window.onload = () => {
+    console.log(new Date().toLocaleTimeString())
     setLogicalNamespace()
     const logicalProcess = new LogicalProcess()
     logicalProcess.started = true
@@ -14,25 +15,35 @@ window.onload = () => {
     const canvas = new Canvas()
     canvas.start()
 
-    // let plot = document.querySelector("#info").plot(data, options).data("plot");
+    let $statistic = document.querySelector('.info')
+    let $counts = $statistic.querySelectorAll('.info-value')
+    let $bacteriaRedCount = $counts[0]
+    let $bacteriaGreenCount = $counts[1]
+    let $foodCount = $counts[2]
 
-    //
-    // setInterval(() => {
-    //     const list = getLogicalNamespace().objectLists.BacteriaGreenList.objects
-    //
-    //     const speedData = {}
-    //     for(let i = -1; i < 5; i += 0.2)
-    //         speedData[i] = (
-    //             list.reduce((accumulate, bacteria)=> {
-    //                 if(bacteria instanceof Bacteria)
-    //                     if (Math.abs(bacteria.speed - i) <= 0.1) {
-    //                         return accumulate + 1
-    //                     }
-    //                 return accumulate
-    //             }, 0))
-    //
-    //     // -1 to 5
-    //
-    //     // let graphic = d3.line(Object.keys(speedData), Object.values(speedData))
-    // }, 1500)
+    let timeLineInformation = {
+        bacteriaRedCount: [],
+        bacteriaGreenCount: [],
+        foodCount: []
+    }
+
+    window.statistic = timeLineInformation
+
+    window.showStatistic = () => {
+        console.log(timeLineInformation.bacteriaRedCount)
+        console.log(timeLineInformation.bacteriaGreenCount)
+        console.log(timeLineInformation.foodCount)
+    }
+
+    setInterval(() => {
+        timeLineInformation.bacteriaRedCount.push(getLogicalNamespace().objectLists.BacteriaRedList.objects.length)
+        timeLineInformation.bacteriaGreenCount.push(getLogicalNamespace().objectLists.BacteriaGreenList.objects.length)
+        timeLineInformation.foodCount.push(getLogicalNamespace().objectLists.FoodList.objects.length)
+
+        $bacteriaRedCount.innerHTML = getLogicalNamespace().objectLists.BacteriaRedList.objects.length
+        $bacteriaGreenCount.innerHTML = getLogicalNamespace().objectLists.BacteriaGreenList.objects.length
+        $foodCount.innerHTML = getLogicalNamespace().objectLists.FoodList.objects.length
+
+
+    }, 18000)
 }

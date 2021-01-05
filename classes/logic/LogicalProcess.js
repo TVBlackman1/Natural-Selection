@@ -35,12 +35,12 @@ export class LogicalProcess {
     }
 
     start() {
-        FoodFactory.generateNFood(Food, 6)
+        FoodFactory.generateNFood(Food, 20)
 
-        FoodFactory.StartGenerateFood(Food, 3, 550)
+        FoodFactory.StartGenerateFood(Food, 38, 500, 1550)
 
-        BacteriaFactory.generateNBacteria(BacteriaGreen, 30)
-        BacteriaFactory.generateNBacteria(BacteriaRed, 5)
+        BacteriaFactory.generateNBacteria(BacteriaGreen, 300)
+        BacteriaFactory.generateNBacteria(BacteriaRed, 50)
 
         setInterval(() => {
             this.executeLogicalIteration()

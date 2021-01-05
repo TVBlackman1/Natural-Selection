@@ -37,12 +37,14 @@ export class FoodFactory {
      *
      * @param FoodClass - class, not object.
      * @param {number} count - count of foods in iteration
+     * @param {number} maxCount - max count of food on a map
      * @param {number} interval - time interval
      * @constructor
      */
-    static StartGenerateFood(FoodClass, count, interval) {
+    static StartGenerateFood(FoodClass, count, maxCount, interval) {
         FoodFactory.interval = setInterval(() => {
-            FoodFactory.generateNFood(FoodClass, count)
+            if(getLogicalNamespace().objectLists.FoodList.objects.length < maxCount)
+                FoodFactory.generateNFood(FoodClass, count)
         }, interval)
     }
 

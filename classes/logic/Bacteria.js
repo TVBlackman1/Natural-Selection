@@ -51,16 +51,16 @@ export class Bacteria extends RealObject {
         const reducerNearTarget = (nearest, current) => {
             let rangeToCurrent = range(current.x, current.y, this_in.x, this_in.y)
             let rangeToNearest = range(nearest.x, nearest.y, this_in.x, this_in.y)
-            if (rangeToCurrent < rangeToNearest && rangeToCurrent <= this.senseRange ** 2
+            if (rangeToCurrent < rangeToNearest
             ) {
                 return current
             } else return nearest
         }
         this.currentTarget = targetList.reduce(reducerNearTarget, targetList[0])
 
-        // targetList[0] - nearest by default. If no one closer, we should to check is targetList[0] in sense range
-        if (this.currentTarget === targetList[0] &&
-            range(this.currentTarget.x, this.currentTarget.y, this_in.x, this_in.y) > this.senseRange ** 2
+        // currentTarget - nearest food. If it is not in range of bacteria sense - its mean no one food exist in range
+        // of bacteria sense
+        if (this.currentTarget && range(this.currentTarget.x, this.currentTarget.y, this.x, this.y) > this.senseRange ** 2
         ) {
             this.currentTarget = null
         }
@@ -92,11 +92,26 @@ export class Bacteria extends RealObject {
             return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
         }
 
+        function getRandom(min, max) {
+            return (Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
+        }
+
+        const angle = getRandom(0, 2 * Math.PI)
+        const dx = Math.cos(angle) * 10000
+        const dy = Math.sin(angle) * 10000
+
+        // this.exploringTerrain = {
+        //     ok: true,
+        //     targetX: getRandomInt(0, getLogicalNamespace().field.width - this.width),
+        //     targetY: getRandomInt(0, getLogicalNamespace().field.height - this.height),
+        //     timeoutFunc: setTimeout(this.breakExploreTerrain.bind(this), 8500)
+        // }
+
         this.exploringTerrain = {
             ok: true,
-            targetX: getRandomInt(0, getLogicalNamespace().field.width - this.width),
-            targetY: getRandomInt(0, getLogicalNamespace().field.height - this.height),
-            timeoutFunc: setTimeout(this.breakExploreTerrain.bind(this), 7000)
+            targetX: this.x + dx,
+            targetY: this.y + dy,
+            timeoutFunc: setTimeout(this.breakExploreTerrain.bind(this), 8500)
         }
     }
 
@@ -203,7 +218,7 @@ export class Bacteria extends RealObject {
         }
 
         const coef = getRandom(0.8, 1.3)
-        this.senseRange *= coef
+        this.senseRange /= coef
         this.speed *= coef
         this.maxTimeWithoutFood /= (coef * 0.95)
         this.timeWithoutFood = this.maxTimeWithoutFood

@@ -16,6 +16,7 @@ export class BacteriaFactory {
         }
 
         let bacteria = new BacteriaClass()
+        bacteria.mutate()
         bacteria.x = getRandomInt(0, getLogicalNamespace().field.width - bacteria.width)
         bacteria.y = getRandomInt(0, getLogicalNamespace().field.height - bacteria.height)
         return bacteria
