@@ -100,13 +100,6 @@ export class Bacteria extends RealObject {
         const dx = Math.cos(angle) * 10000
         const dy = Math.sin(angle) * 10000
 
-        // this.exploringTerrain = {
-        //     ok: true,
-        //     targetX: getRandomInt(0, getLogicalNamespace().field.width - this.width),
-        //     targetY: getRandomInt(0, getLogicalNamespace().field.height - this.height),
-        //     timeoutFunc: setTimeout(this.breakExploreTerrain.bind(this), 8500)
-        // }
-
         this.exploringTerrain = {
             ok: true,
             targetX: this.x + dx,
@@ -136,7 +129,6 @@ export class Bacteria extends RealObject {
 
     onTargetDeath() {
         super.onTargetDeath();
-        // this.setNearestTarget()
         this.currentTarget = null
     }
 

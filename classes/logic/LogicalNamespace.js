@@ -9,8 +9,6 @@ class LogicalNamespace {
         }
 
         this.field = {
-            // width: 4800,
-            // height: 3200
             width: 7600,
             height: 6000
         }

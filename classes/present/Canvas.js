@@ -24,6 +24,8 @@ export class Canvas {
 
 
     paint() {
+        // this.context.scale(1, 1);
+
         this.context.drawImage(
             this.backgroundTexture,
             0, 0,
@@ -31,19 +33,18 @@ export class Canvas {
             this.canvas.height
         );
 
+
         const countLogicalLists = Object.keys(this.logicalNamespace.objectLists).length
         for (let i = 0; i < countLogicalLists; i++) {
             let list = Object.values(this.logicalNamespace.objectLists)[i].objects
-            // console.log(list)
             let countObjects = list.length
-            // console.log(countObjects)
             for (let j = 0; j < countObjects; j++) {
                 let object = list[j]
-                // console.log(object)
-                // console.log(object.constructor.name);
                 ObjectPainter.paint(object)
             }
         }
+
+        // this.context.setTransform(1, 0, 0, 1, 0, 0);
     }
 
     start() {

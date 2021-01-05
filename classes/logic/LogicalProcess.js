@@ -22,16 +22,6 @@ export class LogicalProcess {
         this.objectLists.BacteriaRedList.objects.forEach((bacteriaRed) => {
             bacteriaRed.update()
         })
-
-        // const countLogicalLists = Object.keys(this.logicalNamespace.objectLists).length
-        // for (let i = 0; i < countLogicalLists; i++) {
-        //     let list = Object.values(this.logicalNamespace.objectLists)[i]
-        //     let countObjects = list.length
-        //     for (let j = 0; j < countObjects; j++) {
-        //         let object = list[j]
-        //         // console.log(object.constructor.name);
-        //     }
-        // }
     }
 
     start() {

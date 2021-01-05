@@ -5,6 +5,7 @@ import {BacteriaGreen} from "./classes/logic/BacteriaGreen";
 import {Bacteria} from "./classes/logic/Bacteria";
 
 window.onload = () => {
+
     console.log(new Date().toLocaleTimeString())
     setLogicalNamespace()
     let objectLists = getLogicalNamespace().objectLists
@@ -12,7 +13,6 @@ window.onload = () => {
     const logicalProcess = new LogicalProcess()
     logicalProcess.started = true
     logicalProcess.start()
-
 
     const canvas = new Canvas()
     canvas.start()
@@ -43,26 +43,6 @@ window.onload = () => {
     }
 
     window.statistic = timeLineInformation
-
-    // window.showStatistic = () => {
-    //     console.log(timeLineInformation.bacteriaRedCount)
-    //     console.log(timeLineInformation.bacteriaGreenCount)
-    //     console.log(timeLineInformation.foodCount)
-    // }
-
-    let sum = (array) => {
-        return array.reduce(function(previousValue, currentValue) {
-            return previousValue + currentValue;
-        });
-    }
-
-    let getAverage = (array, property) => {
-        let sumSpeed = 0
-        array.forEach((elem) => {
-            sumSpeed += elem[property]
-        })
-        return sumSpeed / array.length
-    }
 
     setInterval(() => {
         timeLineInformation.bacteriaRed.count.push(objectLists.BacteriaRedList.objects.length)
@@ -103,7 +83,7 @@ window.onload = () => {
         $foodCount.innerHTML = objectLists.FoodList.objects.length
 
 
-    }, 3000)
+    }, timeLineInformation.timeInterval)
 
     let dlAnchorElem = document.getElementById('btn-download');
     dlAnchorElem.setAttribute("download", "scene.json");
@@ -111,6 +91,5 @@ window.onload = () => {
     dlAnchorElem.addEventListener('click', () => {
         let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(timeLineInformation));
         dlAnchorElem.setAttribute("href", dataStr);
-        // console.log(JSON.stringify(timeLineInformation))
     })
 }
