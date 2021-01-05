@@ -1,4 +1,5 @@
 import {Food} from "./Food";
+import {getLogicalNamespace} from "./LogicalNamespace";
 
 
 export class FoodFactory {
@@ -16,8 +17,8 @@ export class FoodFactory {
         }
 
         let food = new FoodClass()
-        food.x = getRandomInt(0, 1200 - food.width)
-        food.y = getRandomInt(0, 800 - food.height)
+        food.x = getRandomInt(0, getLogicalNamespace().field.width - food.width)
+        food.y = getRandomInt(0, getLogicalNamespace().field.height - food.height)
         return food
     }
 

@@ -6,7 +6,13 @@ class LogicalNamespace {
         this.objectLists.BacteriaGreenList = new ObjectList()
         this.objectLists.BacteriaRedList = new ObjectList()
         this.objectLists.FoodList = new ObjectList()
+
+        this.field = {
+            width: 4800,
+            height: 3200
+        }
     }
+
 }
 
 let logicalNamespace = null

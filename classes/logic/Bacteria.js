@@ -72,7 +72,6 @@ export class Bacteria extends RealObject {
     exploreTerrain() {
         if(!this.exploringTerrain.ok) {
             this.startExploreTerrain()
-            console.log("change turn")
         }
 
         this.goTo(this.exploringTerrain.targetX, this.exploringTerrain.targetY)
@@ -95,11 +94,10 @@ export class Bacteria extends RealObject {
 
         this.exploringTerrain = {
             ok: true,
-            targetX: getRandomInt(0, 1200 - this.width),
-            targetY: getRandomInt(0, 800 - this.height),
+            targetX: getRandomInt(0, getLogicalNamespace().field.width - this.width),
+            targetY: getRandomInt(0, getLogicalNamespace().field.height - this.height),
             timeoutFunc: setTimeout(this.breakExploreTerrain.bind(this), 7000)
         }
-        console.log(this.exploringTerrain.targetX, this.exploringTerrain.targetY)
     }
 
     goTo(x, y) {
@@ -144,6 +142,21 @@ export class Bacteria extends RealObject {
     shift(dx, dy) {
         this.x += dx
         this.y += dy
+        this.move(this.x + dx, this.y + dy)
+    }
+
+    move(x, y) {
+        if(x < 0)
+            x = 0
+        if(y < 0)
+            y = 0
+        if(x > getLogicalNamespace().field.width - this.width)
+            x = getLogicalNamespace().field.width - this.width
+        if(y > getLogicalNamespace().field.height - this.height)
+            y = getLogicalNamespace().field.height - this.height
+
+        this.x = x
+        this.y = y
     }
 
     update() {
@@ -189,9 +202,10 @@ export class Bacteria extends RealObject {
             return (Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
         }
 
-        const coef = getRandom(0.8, 1.2)
+        const coef = getRandom(0.8, 1.3)
+        this.senseRange *= coef
         this.speed *= coef
-        this.maxTimeWithoutFood /= (coef * 0.98)
+        this.maxTimeWithoutFood /= (coef * 0.95)
         this.timeWithoutFood = this.maxTimeWithoutFood
         // this.maxLivingTime *= getRandom(0.99, 1.01)
         // this.maxTimeWithoutFood *= getRandom(0.99, 1.01)

@@ -23,24 +23,24 @@ export class LogicalProcess {
             bacteriaRed.update()
         })
 
-        const countLogicalLists = Object.keys(this.logicalNamespace.objectLists).length
-        for (let i = 0; i < countLogicalLists; i++) {
-            let list = Object.values(this.logicalNamespace.objectLists)[i]
-            let countObjects = list.length
-            for (let j = 0; j < countObjects; j++) {
-                let object = list[j]
-                // console.log(object.constructor.name);
-            }
-        }
+        // const countLogicalLists = Object.keys(this.logicalNamespace.objectLists).length
+        // for (let i = 0; i < countLogicalLists; i++) {
+        //     let list = Object.values(this.logicalNamespace.objectLists)[i]
+        //     let countObjects = list.length
+        //     for (let j = 0; j < countObjects; j++) {
+        //         let object = list[j]
+        //         // console.log(object.constructor.name);
+        //     }
+        // }
     }
 
     start() {
         FoodFactory.generateNFood(Food, 6)
 
-        FoodFactory.StartGenerateFood(Food, 2, 600)
+        FoodFactory.StartGenerateFood(Food, 3, 550)
 
-        BacteriaFactory.generateNBacteria(BacteriaGreen, 12)
-        BacteriaFactory.generateNBacteria(BacteriaRed, 3)
+        BacteriaFactory.generateNBacteria(BacteriaGreen, 30)
+        BacteriaFactory.generateNBacteria(BacteriaRed, 5)
 
         setInterval(() => {
             this.executeLogicalIteration()

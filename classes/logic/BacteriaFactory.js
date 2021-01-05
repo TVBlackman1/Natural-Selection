@@ -1,4 +1,5 @@
 import {Bacteria} from "./Bacteria";
+import {getLogicalNamespace} from "./LogicalNamespace";
 
 
 export class BacteriaFactory {
@@ -15,8 +16,8 @@ export class BacteriaFactory {
         }
 
         let bacteria = new BacteriaClass()
-        bacteria.x = getRandomInt(0, 1200 - bacteria.width)
-        bacteria.y = getRandomInt(0, 800 - bacteria.height)
+        bacteria.x = getRandomInt(0, getLogicalNamespace().field.width - bacteria.width)
+        bacteria.y = getRandomInt(0, getLogicalNamespace().field.height - bacteria.height)
         return bacteria
     }
 

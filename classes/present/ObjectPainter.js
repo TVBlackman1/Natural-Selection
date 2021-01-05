@@ -1,4 +1,4 @@
-import {image} from "../../preset";
+import {image} from "../../imagesPreset";
 import {RealObject} from "../logic/RealObject";
 import {Bacteria} from "../logic/Bacteria";
 

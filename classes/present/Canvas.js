@@ -1,4 +1,4 @@
-import {image} from "../../preset";
+import {image} from "../../imagesPreset";
 import {ObjectPainter} from "./ObjectPainter";
 import {ObjectList} from "../logic/ObjectList";
 import {getLogicalNamespace} from "../logic/LogicalNamespace";
@@ -6,13 +6,16 @@ import {getLogicalNamespace} from "../logic/LogicalNamespace";
 export class Canvas {
 
     constructor() {
+        this.logicalNamespace = getLogicalNamespace()
+
         this.canvas = document.getElementById("canvas")
+
+        this.canvas.width = this.logicalNamespace.field.width
+        this.canvas.height = this.logicalNamespace.field.height
+
         this.context = this.canvas.getContext('2d')
 
         ObjectPainter.context = this.context
-
-        this.logicalNamespace = getLogicalNamespace()
-
 
         this.backgroundTexture = image.background
 
