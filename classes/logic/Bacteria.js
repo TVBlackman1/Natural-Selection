@@ -220,7 +220,7 @@ export class Bacteria extends RealObject {
         const coef = getRandom(0.8, 1.3)
         this.senseRange /= coef
         this.speed *= coef
-        this.maxTimeWithoutFood /= (coef * 0.95)
+        this.maxTimeWithoutFood /= coef
         this.timeWithoutFood = this.maxTimeWithoutFood
         // this.maxLivingTime *= getRandom(0.99, 1.01)
         // this.maxTimeWithoutFood *= getRandom(0.99, 1.01)

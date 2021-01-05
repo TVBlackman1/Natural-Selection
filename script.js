@@ -7,6 +7,8 @@ import {Bacteria} from "./classes/logic/Bacteria";
 window.onload = () => {
     console.log(new Date().toLocaleTimeString())
     setLogicalNamespace()
+    let objectLists = getLogicalNamespace().objectLists
+
     const logicalProcess = new LogicalProcess()
     logicalProcess.started = true
     logicalProcess.start()
@@ -22,28 +24,93 @@ window.onload = () => {
     let $foodCount = $counts[2]
 
     let timeLineInformation = {
-        bacteriaRedCount: [],
-        bacteriaGreenCount: [],
-        foodCount: []
+        bacteriaRed: {
+            count: [],
+            speed: [],
+            senseRange: [],
+            maxTimeWithoutFood: []
+        },
+        bacteriaGreen: {
+            count: [],
+            speed: [],
+            senseRange: [],
+            maxTimeWithoutFood: []
+        },
+        food: {
+            count: []
+        },
+        timeInterval: 3000
     }
 
     window.statistic = timeLineInformation
 
-    window.showStatistic = () => {
-        console.log(timeLineInformation.bacteriaRedCount)
-        console.log(timeLineInformation.bacteriaGreenCount)
-        console.log(timeLineInformation.foodCount)
+    // window.showStatistic = () => {
+    //     console.log(timeLineInformation.bacteriaRedCount)
+    //     console.log(timeLineInformation.bacteriaGreenCount)
+    //     console.log(timeLineInformation.foodCount)
+    // }
+
+    let sum = (array) => {
+        return array.reduce(function(previousValue, currentValue) {
+            return previousValue + currentValue;
+        });
+    }
+
+    let getAverage = (array, property) => {
+        let sumSpeed = 0
+        array.forEach((elem) => {
+            sumSpeed += elem[property]
+        })
+        return sumSpeed / array.length
     }
 
     setInterval(() => {
-        timeLineInformation.bacteriaRedCount.push(getLogicalNamespace().objectLists.BacteriaRedList.objects.length)
-        timeLineInformation.bacteriaGreenCount.push(getLogicalNamespace().objectLists.BacteriaGreenList.objects.length)
-        timeLineInformation.foodCount.push(getLogicalNamespace().objectLists.FoodList.objects.length)
+        timeLineInformation.bacteriaRed.count.push(objectLists.BacteriaRedList.objects.length)
+        timeLineInformation.bacteriaGreen.count.push(objectLists.BacteriaGreenList.objects.length)
+        timeLineInformation.food.count.push(objectLists.FoodList.objects.length)
 
-        $bacteriaRedCount.innerHTML = getLogicalNamespace().objectLists.BacteriaRedList.objects.length
-        $bacteriaGreenCount.innerHTML = getLogicalNamespace().objectLists.BacteriaGreenList.objects.length
-        $foodCount.innerHTML = getLogicalNamespace().objectLists.FoodList.objects.length
+        let getAverage = (array) => {
+            let sumSpeed = 0
+            let sumSense = 0
+            let sumMaxTimeWithoutFood = 0
+            array.forEach((elem) => {
+                sumSpeed += elem.speed
+                sumSense += elem.senseRange
+                sumMaxTimeWithoutFood += elem.maxTimeWithoutFood
+            })
+            return {
+                speed: sumSpeed / array.length,
+                senseRange: sumSense / array.length,
+                maxTimeWithoutFood: sumMaxTimeWithoutFood / array.length,
+            }
+        }
+
+        const redAverages = getAverage(objectLists.BacteriaRedList.objects)
+        const greenAverages = getAverage(objectLists.BacteriaGreenList.objects)
+
+        timeLineInformation.bacteriaRed.speed.push(redAverages.speed)
+        timeLineInformation.bacteriaGreen.speed.push(greenAverages.speed)
+
+        timeLineInformation.bacteriaRed.senseRange.push(redAverages.senseRange)
+        timeLineInformation.bacteriaGreen.senseRange.push(greenAverages.senseRange)
+
+        timeLineInformation.bacteriaRed.maxTimeWithoutFood.push(redAverages.maxTimeWithoutFood)
+        timeLineInformation.bacteriaGreen.maxTimeWithoutFood.push(greenAverages.maxTimeWithoutFood)
 
 
-    }, 18000)
+        $bacteriaRedCount.innerHTML = objectLists.BacteriaRedList.objects.length
+        $bacteriaGreenCount.innerHTML = objectLists.BacteriaGreenList.objects.length
+        $foodCount.innerHTML = objectLists.FoodList.objects.length
+
+
+    }, 3000)
+
+    let dlAnchorElem = document.getElementById('btn-download');
+    dlAnchorElem.setAttribute("download", "scene.json");
+
+    dlAnchorElem.addEventListener('click', () => {
+        let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(timeLineInformation));
+        dlAnchorElem.setAttribute("href", dataStr);
+        // console.log(JSON.stringify(timeLineInformation))
+    })
 }
